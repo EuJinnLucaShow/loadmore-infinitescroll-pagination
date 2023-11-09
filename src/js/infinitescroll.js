@@ -9,13 +9,11 @@ const galleryContainer = document.querySelector('.gallery');
 const searchQueryInput = document.querySelector('#search-bar');
 
 let isShown = 0;
-let currentPage = 1; // Track the current page number
-const batchSize = 9; // Limit the rendering to 9 images per batch
 const api = new ApiService();
 
 searchButton.addEventListener("click", function(event) {
   event.preventDefault();
-  onSearch(event);
+  onSearch();
 });
 
 searchQueryInput.addEventListener("keydown", function(event) {
@@ -44,13 +42,12 @@ function onSearch() {
 
   searchQueryInput.value = '';
 
-  isShown = 0;
-  currentPage = 1; // Reset the current page
+  isShown = 0; 
   fetchGallery();
 }
 
 async function fetchGallery() {
-  const result = await api.fetchGallery(currentPage);
+  const result = await api.fetchGallery();
   const { hits, totalHits } = result;
   isShown += hits.length;
 
@@ -66,17 +63,8 @@ async function fetchGallery() {
     return;
   }
 
-  const batchHits = hits.slice(0, batchSize);
-  onRenderGallery(batchHits);
-  isShown += batchHits.length;
-   
-  const { height: cardHeight } =
-    galleryContainer.firstElementChild.getBoundingClientRect();
-  window.scrollBy({
-    top: cardHeight * 1,
-    behavior: 'smooth',
-  });
-    
+  onRenderGallery(hits);
+  isShown += hits.length;    
 
   if (isShown < totalHits) {
     iziToast.success({
@@ -94,9 +82,7 @@ async function fetchGallery() {
       position: 'topRight',
       color: 'blue',
     });
-  }
-
-  currentPage++;
+  }  
 }
 
 function onRenderGallery(elements) {
@@ -131,6 +117,7 @@ function onRenderGallery(elements) {
 }
 
 function onLoadMore() {
+   api.incrementPage();
   fetchGallery();
 }
 
@@ -142,15 +129,9 @@ function checkIfEndOfPage() {
 
 window.addEventListener('scroll', showLoadMorePage);
 
-let debounceTimeout;
-
 function showLoadMorePage() {
-  if (debounceTimeout) {
-    clearTimeout(debounceTimeout);
+  if (checkIfEndOfPage()) {
+    onLoadMore();
   }
-  debounceTimeout = setTimeout(() => {
-    if (checkIfEndOfPage()) {
-      onLoadMore();
-    }
-  }, 300); // Adjust the delay as needed
 }
+

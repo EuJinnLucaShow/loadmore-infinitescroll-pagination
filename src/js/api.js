@@ -24,8 +24,7 @@ export default class ApiService {
     
     try {
       const response = await axios(axiosOptions);
-      const data = response.data;
-      this.incrementPage();
+      const data = response.data;     
       return data;
     } catch (error) {
       console.error(error);
