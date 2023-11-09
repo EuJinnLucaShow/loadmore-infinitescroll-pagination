@@ -9,10 +9,12 @@ const galleryContainer = document.querySelector('.gallery');
 const searchQueryInput = document.querySelector('#search-bar');
 
 let isShown = 0;
+let currentPage = 1; // Track the current page number
+const batchSize = 9; // Limit the rendering to 9 images per batch
 const api = new ApiService();
 
 searchButton.addEventListener("click", function(event) {
-  event.preventDefault();  
+  event.preventDefault();
   onSearch(event);
 });
 
@@ -43,13 +45,12 @@ function onSearch() {
   searchQueryInput.value = '';
 
   isShown = 0;
+  currentPage = 1; // Reset the current page
   fetchGallery();
 }
 
-
 async function fetchGallery() {
-  
-  const result = await api.fetchGallery();
+  const result = await api.fetchGallery(currentPage);
   const { hits, total } = result;
   isShown += hits.length;
 
@@ -65,8 +66,17 @@ async function fetchGallery() {
     return;
   }
 
-  onRenderGallery(hits);
-  isShown += hits.length;
+  const batchHits = hits.slice(0, batchSize);
+  onRenderGallery(batchHits);
+  isShown += batchHits.length;
+   
+  const { height: cardHeight } =
+    galleryContainer.firstElementChild.getBoundingClientRect();
+  window.scrollBy({
+    top: cardHeight * 1,
+    behavior: 'smooth',
+  });
+    
 
   if (isShown < total) {
     iziToast.success({
@@ -75,16 +85,6 @@ async function fetchGallery() {
       position: 'topRight',
       color: 'green',
     });
-
-   
-      const { height: cardHeight } =
-        galleryContainer.firstElementChild.getBoundingClientRect();
-      window.scrollBy({
-        top: cardHeight * 2,
-        behavior: 'smooth',
-      });    
-
-   
   }
 
   if (isShown >= total) {
@@ -95,7 +95,8 @@ async function fetchGallery() {
       color: 'blue',
     });
   }
-  
+
+  currentPage++;
 }
 
 function onRenderGallery(elements) {
@@ -130,7 +131,6 @@ function onRenderGallery(elements) {
 }
 
 function onLoadMore() {
-  api.incrementPage();
   fetchGallery();
 }
 
@@ -140,10 +140,10 @@ function checkIfEndOfPage() {
   );
 }
 
+window.addEventListener('scroll', showLoadMorePage);
+
 function showLoadMorePage() {
   if (checkIfEndOfPage()) {
     onLoadMore();
   }
 }
-
-window.addEventListener('scroll', showLoadMorePage);
