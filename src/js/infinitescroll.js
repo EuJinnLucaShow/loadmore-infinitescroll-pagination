@@ -51,7 +51,7 @@ function onSearch() {
 
 async function fetchGallery() {
   const result = await api.fetchGallery(currentPage);
-  const { hits, total } = result;
+  const { hits, totalHits } = result;
   isShown += hits.length;
 
   if (!hits.length) {
@@ -78,16 +78,16 @@ async function fetchGallery() {
   });
     
 
-  if (isShown < total) {
+  if (isShown < totalHits) {
     iziToast.success({
       title: 'Success',
-      message: `Hooray! We found ${total} images !!!`,
+      message: `Hooray! We found ${totalHits} images !!!`,
       position: 'topRight',
       color: 'green',
     });
   }
 
-  if (isShown >= total) {
+  if (isShown >= totalHits) {
     iziToast.info({
       title: 'Info',
       message: "We're sorry, but you've reached the end of search results.",
@@ -117,10 +117,10 @@ function onRenderGallery(elements) {
        <img class="photo-img" src="${webformatURL}" alt="${tags}" loading="lazy" />
        </a>
        <div class="info">
-       <p class="info-item"><b>Likes</b>${likes}</p>
-       <p class="info-item"><b>Views</b>${views}</p>
-       <p class="info-item"><b>Comments</b>${comments}</p>
-       <p class="info-item"><b>Downloads</b>${downloads}</p>
+       <p class="info-item"><b>Likes</b><span class="info__span">${likes}</span></p>
+       <p class="info-item"><b>Views</b><span class="info__span">${views}</span></p>
+       <p class="info-item"><b>Comments</b><span class="info__span">${comments}</span></p>
+       <p class="info-item"><b>Downloads</b><span class="info__span">${downloads}</span></p>
        </div>
        </div>`;
       }
@@ -142,8 +142,15 @@ function checkIfEndOfPage() {
 
 window.addEventListener('scroll', showLoadMorePage);
 
+let debounceTimeout;
+
 function showLoadMorePage() {
-  if (checkIfEndOfPage()) {
-    onLoadMore();
+  if (debounceTimeout) {
+    clearTimeout(debounceTimeout);
   }
+  debounceTimeout = setTimeout(() => {
+    if (checkIfEndOfPage()) {
+      onLoadMore();
+    }
+  }, 300); // Adjust the delay as needed
 }

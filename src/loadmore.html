@@ -4,26 +4,22 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="./images/favicon.ico" />
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.min.css"
-        integrity="sha384-o+5dWaAxicpWsXNbxiBxHQNbMq1tRddfYsg5r/6h5cD+KZw3QfmQJdzSik6aFj3E" crossorigin="anonymous" /> -->
     <link rel="stylesheet" href="./sass/index.scss" />
+    <link rel="shortcut icon" href="./images/favicon.ico" />
     <title>Load More</title>
 </head>
 
 <body>
-    <a href="./index.html">Back</a>
-    <form class="search-form" id="search-form">
-        <input class="search-form__input" type="text" name="searchQuery" autocomplete="off"
-            placeholder="Search images..." />
-        <button class="search-form__button" type="submit">
-            Search
-        </button>
+    <a class="btn-back" href="./index.html">Back</a>
+
+    <h1>Load More</h1>
+
+    <form class="search-container">
+        <input type="text" id="search-bar" name="searchQuery" placeholder="What can I help you with today?" />
+        <a href="#" id="search-button"><img class="search-icon" src="./images/search-glass.svg"></a>
     </form>
 
     <div class="gallery"></div>
-
-    <div class="loader is-hidden"><span>{</span><span>}</span></div>
 
 
 </body>
