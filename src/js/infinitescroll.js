@@ -123,6 +123,9 @@ function showWarningToast(message) {
     message: message,
     position: 'topRight',
     color: 'yellow',
+    timeout: 2000,
+    closeOnEscape: true,
+    closeOnClick: true,
   });
 }
 
@@ -132,6 +135,9 @@ function showErrorToast(message) {
     message: message,
     position: 'topRight',
     color: 'red',
+    timeout: 2000,
+    closeOnEscape: true,
+    closeOnClick: true,
   });
 }
 
@@ -141,6 +147,9 @@ function showSuccessToast(message) {
     message: message,
     position: 'topRight',
     color: 'green',
+    timeout: 2000,
+    closeOnEscape: true,
+    closeOnClick: true,
   });
 }
 
@@ -150,5 +159,8 @@ function showInfoToast(message) {
     message: message,
     position: 'topRight',
     color: 'blue',
+    timeout: 2000,
+    closeOnEscape: true,
+    closeOnClick: true,
   });
 }
