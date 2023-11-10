@@ -53,14 +53,14 @@ async function fetchGallery() {
     if (isFirstSearch && isShown < totalHits) {
       showSuccessToast(`Hooray! We found ${totalHits} images !!!`);
         isFirstSearch = false;
-        loadMoreButton.classList.toggle('is-hidden')
+        loadMoreButton.classList.remove('is-hidden')
     }
 
     onRenderGallery(hits);
     isShown += hits.length;
 
       if (isShown >= totalHits) {
-        loadMoreButton.classList.toggle('is-hidden')
+        loadMoreButton.classList.add('is-hidden')
       showInfoToast("You've reached the end of search results.");
     }
   } catch (error) {
