@@ -4,7 +4,7 @@ export default class ApiService {
   constructor() {
     this.searchQuery = '';
     this.page = 1;
-    this.PER_PAGE = 9;
+    this.PER_PAGE = 40;
   }
   async fetchGallery() {
     const axiosOptions = {
