@@ -1,8 +1,7 @@
 @import url('./_fonts.scss');
 
 body {
-  font-family: 'Neueyokarto';
-  margin: 0;
+   margin: 0;
 }
 
 ul {
@@ -20,6 +19,8 @@ img {
 a {
   cursor: pointer;
   text-decoration: none;  
+  font-family: 'Neueyokarto'; 
+  color: rgb(96, 96, 96);
 }
 
 h1,
@@ -37,6 +38,7 @@ h1 {
   display: flex;  
   justify-content: center;
   margin-top: 20px;
+  font-family: 'Neueyokarto'; 
 }
 
 .container {
@@ -63,8 +65,7 @@ h1 {
 
 #search-bar{
   font-family: 'Playball';
-  font-size: 25px;  
-  color: #414141;
+  font-size: 25px; 
   margin: 0 auto;
   width: 100%;
   height: 45px;
@@ -81,8 +82,7 @@ h1 {
     border: 1px solid #008ABF;   
     transition: 0.35s ease;
     font-family: 'Playball';
-    font-size: 25px;      
-    color: #414141;
+    font-size: 25px;    
     &::-webkit-input-placeholder{
       transition: opacity 0.45s ease; 
   	  opacity: 0;
@@ -124,6 +124,7 @@ h1 {
   box-shadow: 0px 0px 5px 2px rgba(0, 4, 56, 0.5);
   border-radius: 8px;
   overflow: hidden; 
+  font-family: 'Neueyokarto'; 
 }
 
 .photo-img {
@@ -161,6 +162,7 @@ h1 {
   border-radius: 16px;
   box-sizing: border-box;
   color: #000000;
+  font-family: 'Neueyokarto'; 
   cursor: pointer;
   display: flex;
   position: absolute; 
