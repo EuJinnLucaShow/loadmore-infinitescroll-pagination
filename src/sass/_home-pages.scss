@@ -1,3 +1,7 @@
+.body__home {
+     background-color: rgba(254,241,157,255);
+}
+
 .navigate {
   display: flex;
   justify-content: center;
@@ -102,11 +106,16 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
   transform: rotateX(-90deg);
 }
 
-.article__wrapper {
+.image__wrapper {
     display: flex;
     justify-content: center;
-    margin-top: 100px;    
+    & img { 
+        border-radius: 20px;
+    }      
 }
+
+
+
 
 .article__home-pages {
     font-family: 'Neueyokarto';
