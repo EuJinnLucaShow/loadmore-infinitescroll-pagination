@@ -62,8 +62,8 @@ h1 {
 }
 
 #search-bar{
-  font-family: 'Neueyokarto';
-  font-size: 16px;    
+  font-family: 'Playball';
+  font-size: 25px;  
   color: #414141;
   margin: 0 auto;
   width: 100%;
@@ -72,14 +72,16 @@ h1 {
   border: 1px solid #D0CFCE; 
   border-radius: 30px; 
   outline: none;  
-   &::placeholder { 
+   &::placeholder {
+    font-family: 'Neueyokarto'; 
     font-size: 16px;           
-            padding: 2px 0;           
+    padding: 2px 0;           
         }
   &:focus{
     border: 1px solid #008ABF;   
     transition: 0.35s ease;
-    font-family: 'Neueyokarto';
+    font-family: 'Playball';
+    font-size: 25px;      
     color: #414141;
     &::-webkit-input-placeholder{
       transition: opacity 0.45s ease; 
