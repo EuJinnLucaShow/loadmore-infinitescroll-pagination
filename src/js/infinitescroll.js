@@ -10,6 +10,7 @@ const searchQueryInput = document.querySelector('#search-bar');
 
 let isShown = 0;
 const api = new ApiService();
+let isFirstSearch = true;
 
 searchButton.addEventListener("click", onSearch);
 searchQueryInput.addEventListener("keydown", function(event) {
@@ -17,6 +18,7 @@ searchQueryInput.addEventListener("keydown", function(event) {
     event.preventDefault();
     onSearch();
   }
+  isFirstSearch = true;
 });
 
 function onSearch() {
@@ -36,8 +38,6 @@ function onSearch() {
   isShown = 0; 
   fetchGallery();
 }
-
-let isFirstSearch = true;
 
 async function fetchGallery() {
   try {
@@ -105,6 +105,7 @@ const intersectionObserver = new IntersectionObserver(handleIntersection, observ
 function handleIntersection(entries, _observer) {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
+      api.incrementPage()
       fetchGallery(); // Fetch more items when the last item is intersecting
     }
   });
