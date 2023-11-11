@@ -7,7 +7,7 @@ import 'izitoast/dist/css/iziToast.min.css';
 const searchButton = document.getElementById("search-button");
 const galleryContainer = document.querySelector('.gallery');
 const searchQueryInput = document.querySelector('#search-bar');
-const loadMoreButton = document.querySelector('.btn__load-more')
+const loadMoreButton = document.querySelector('.btn__load-more');
 
 let isShown = 0;
 const api = new ApiService();
@@ -19,7 +19,7 @@ searchQueryInput.addEventListener("keydown", function(event) {
     event.preventDefault();
     onSearch();
   }
-    isFirstSearch = true;    
+  isFirstSearch = true;
 });
 
 function onSearch() {
@@ -36,7 +36,7 @@ function onSearch() {
 
   searchQueryInput.value = '';
 
-  isShown = 0; 
+  isShown = 0;
   fetchGallery();
 }
 
@@ -52,15 +52,15 @@ async function fetchGallery() {
 
     if (isFirstSearch && isShown < totalHits) {
       showSuccessToast(`Hooray! We found ${totalHits} images !!!`);
-        isFirstSearch = false;
-        loadMoreButton.classList.remove('is-hidden')
+      isFirstSearch = false;
+      loadMoreButton.classList.remove('is-hidden');
     }
 
     onRenderGallery(hits);
     isShown += hits.length;
 
-      if (isShown >= totalHits) {
-        loadMoreButton.classList.add('is-hidden')
+    if (isShown >= totalHits) {
+      loadMoreButton.classList.add('is-hidden');
       showInfoToast("You've reached the end of search results.");
     }
   } catch (error) {
@@ -89,10 +89,10 @@ function onRenderGallery(elements) {
   lightbox.refresh();
 }
 
-loadMoreButton.addEventListener("click", () => {
-    api.incrementPage()
-      fetchGallery();
-  });
+loadMoreButton.addEventListener("click", async () => {
+  api.incrementPage(); // Increment the current page
+  await fetchGallery(); // Await the fetchGallery function to ensure the next page is loaded before rendering
+});
 
 function showWarningToast(message) {
   iziToast.warning({
