@@ -30,6 +30,7 @@ function onSearch() {
   api.resetPage();
 
   if (searchQuery === '') {
+    loadMoreButton.classList.add('is-hidden')
     showWarningToast('Please, fill the main field');
     return;
   }
@@ -60,7 +61,7 @@ async function fetchGallery() {
     isShown += hits.length;
 
       if (isShown >= totalHits) {
-        loadMoreButton.classList.add('is-hidden')
+      loadMoreButton.classList.add('is-hidden')
       showInfoToast("You've reached the end of search results.");
     }
   } catch (error) {
