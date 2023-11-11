@@ -11,8 +11,14 @@ const searchQueryInput = document.querySelector('#search-bar');
 const api = new ApiService();
 let isShown = 0;
 let isFirstSearch = true;
+let query = '';
 
-searchButton.addEventListener("click", onSearch);
+searchButton.addEventListener("click", function(event) {  
+  event.preventDefault();
+  onSearch();
+  isFirstSearch = true;    
+});
+
 searchQueryInput.addEventListener("keydown", function(event) {
   if (event.key === 'Enter') {
     event.preventDefault();
@@ -23,18 +29,22 @@ searchQueryInput.addEventListener("keydown", function(event) {
 
 function onSearch() {
   const searchQuery = searchQueryInput.value.trim();
+  
+  api.query = searchQuery;  
 
-  galleryContainer.innerHTML = '';
-  api.query = searchQuery;
-  api.resetPage();
-
-  if (searchQuery === '') {
+  if (searchQuery === '') {    
     showWarningToast('Please, fill the main field');
     return;
-  } 
+  }
 
-  // searchQueryInput.value = '';
-
+    if (searchQuery === query) {    
+    showWarningToast('Please, enter new query.');
+    return;
+  }
+  
+  galleryContainer.innerHTML = '';
+  api.resetPage();
+  query = searchQuery;
   isShown = 0; 
   fetchGallery();
 }

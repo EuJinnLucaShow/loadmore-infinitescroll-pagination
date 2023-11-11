@@ -12,8 +12,14 @@ const loadMoreButton = document.querySelector('.btn__load-more')
 let isShown = 0;
 const api = new ApiService();
 let isFirstSearch = true;
+let query = ''
 
-searchButton.addEventListener("click", onSearch);
+searchButton.addEventListener("click", function(event) {  
+  event.preventDefault();
+  onSearch();
+  isFirstSearch = true;    
+});
+
 searchQueryInput.addEventListener("keydown", function(event) {
   if (event.key === 'Enter') {
     event.preventDefault();
@@ -24,10 +30,8 @@ searchQueryInput.addEventListener("keydown", function(event) {
 
 function onSearch() {
   const searchQuery = searchQueryInput.value.trim();
-
-  galleryContainer.innerHTML = '';
-  api.query = searchQuery;
-  api.resetPage();
+  
+  api.query = searchQuery;  
 
   if (searchQuery === '') {
     loadMoreButton.classList.add('is-hidden')
@@ -35,8 +39,15 @@ function onSearch() {
     return;
   }
 
-  // searchQueryInput.value = '';
-
+    if (searchQuery === query) {
+    loadMoreButton.classList.add('is-hidden')
+    showWarningToast('Please, enter new query.');
+    return;
+  }
+  
+  galleryContainer.innerHTML = '';
+  api.resetPage();
+  query = searchQuery;
   isShown = 0; 
   fetchGallery();
 }
