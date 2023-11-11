@@ -47,6 +47,7 @@ async function fetchGallery() {
     const { hits, totalHits } = result;
 
     if (!hits.length) {
+      loadMoreButton.classList.add('is-hidden')
       showErrorToast("Sorry, there are no images matching your search query. Please try again.");
       return;
     }
