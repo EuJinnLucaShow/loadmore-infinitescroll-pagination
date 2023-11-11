@@ -34,7 +34,7 @@ function onSearch() {
     return;
   }
 
-  searchQueryInput.value = '';
+  // searchQueryInput.value = '';
 
   isShown = 0; 
   fetchGallery();

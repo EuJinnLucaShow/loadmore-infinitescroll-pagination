@@ -7,10 +7,9 @@ import 'izitoast/dist/css/iziToast.min.css';
 const searchButton = document.getElementById("search-button");
 const galleryContainer = document.querySelector('.gallery');
 const searchQueryInput = document.querySelector('#search-bar');
-const loadMoreButton = document.querySelector('.btn__load-more');
 
-let isShown = 0;
 const api = new ApiService();
+let isShown = 0;
 let isFirstSearch = true;
 
 searchButton.addEventListener("click", onSearch);
