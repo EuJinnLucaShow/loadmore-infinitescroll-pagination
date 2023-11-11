@@ -11,7 +11,7 @@
   <link rel="modulepreload" crossorigin href="/loadmore-infinitescroll-pagination/assets/vendor-a94593f8.js">
   <link rel="modulepreload" crossorigin href="/loadmore-infinitescroll-pagination/assets/lightbox-280c1b4a.js">
   <link rel="stylesheet" href="/loadmore-infinitescroll-pagination/assets/vendor-a51daae5.css">
-  <link rel="stylesheet" href="/loadmore-infinitescroll-pagination/assets/index-f3404135.css">
+  <link rel="stylesheet" href="/loadmore-infinitescroll-pagination/assets/index-16973bc4.css">
 </head>
 
 <body>
@@ -27,11 +27,20 @@
     </header>
 
     <main>
-        <div class="gallery"></div>
+        <div class="gallery" id="paginated-list" aria-live="polite"></div>
 
-        <div class="btn__wrapper">
-            <button type="button" class="btn__load-more is-hidden">Load More</button>
-        </div>
+        <nav class="pagination-container">
+            <button class="pagination-button" id="prev-button" title="Previous page" aria-label="Previous page">
+                &lt;
+            </button>
+
+            <div id="pagination-numbers">
+            </div>
+
+            <button class="pagination-button" id="next-button" title="Next page" aria-label="Next page">
+                &gt;
+            </button>
+        </nav>
     </main>
 
     
