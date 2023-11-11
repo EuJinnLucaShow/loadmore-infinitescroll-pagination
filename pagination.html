@@ -7,21 +7,34 @@
     
     <link rel="shortcut icon" href="/loadmore-infinitescroll-pagination/assets/favicon-a1409e04.ico" />
     <title>Pagination</title>
-  <link rel="stylesheet" href="/loadmore-infinitescroll-pagination/assets/index-0ae32c19.css">
+  <script type="module" crossorigin src="/loadmore-infinitescroll-pagination/commonHelpers4.js"></script>
+  <link rel="modulepreload" crossorigin href="/loadmore-infinitescroll-pagination/assets/vendor-a94593f8.js">
+  <link rel="modulepreload" crossorigin href="/loadmore-infinitescroll-pagination/assets/lightbox-280c1b4a.js">
+  <link rel="stylesheet" href="/loadmore-infinitescroll-pagination/assets/vendor-a51daae5.css">
+  <link rel="stylesheet" href="/loadmore-infinitescroll-pagination/assets/index-ac2935d7.css">
 </head>
 
 <body>
-    <a class="btn-back" href="./index.html">Back</a>
+    <header class="header">
+        <a class="btn-back" href="./index.html">Back</a>
 
-    <h1>Pagination</h1>
+        <h1>Pagination</h1>
 
-    <form class="search-container">
-        <input type="text" id="search-bar" name="searchQuery" placeholder="What can I help you with today?" />
-        <a href="#" id="search-button"><img class="search-icon" src="/loadmore-infinitescroll-pagination/assets/search-glass-f3b0c6e3.svg"></a>
-    </form>
+        <form class="search-container">
+            <input type="text" id="search-bar" name="searchQuery" placeholder="What can I help you with today?" />
+            <a href="#" id="search-button"><img class="search-icon" src="/loadmore-infinitescroll-pagination/assets/search-glass-f3b0c6e3.svg"></a>
+        </form>
+    </header>
 
-    <div class="gallery"></div>
+    <main>
+        <div class="gallery"></div>
 
+        <div class="btn__wrapper">
+            <button type="button" class="btn__load-more is-hidden">Load More</button>
+        </div>
+    </main>
+
+    
 </body>
 
 </html>
