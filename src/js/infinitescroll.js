@@ -38,7 +38,7 @@ function onSearch() {
   }
 
     if (searchQuery === query) {    
-    showWarningToast('Please, enter new query.');
+    showWarningToast('Please, modify or enter a new search field.');
     return;
   }
   

@@ -41,7 +41,7 @@ function onSearch() {
 
     if (searchQuery === query) {
     loadMoreButton.classList.add('is-hidden')
-    showWarningToast('Please, enter new query.');
+    showWarningToast('Please, modify or enter a new search field.');
     return;
   }
   
