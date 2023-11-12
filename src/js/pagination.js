@@ -13,7 +13,7 @@ const prevButton = document.getElementById('prev-button');
 const nextButton = document.getElementById('next-button');
 
 let isShown = 0;
-let isFirstSearch = null;
+let isFirstSearch = true;
 let currentPage = 1;
 let query = ''
 const api = new ApiService();
@@ -21,7 +21,8 @@ const api = new ApiService();
 searchButton.addEventListener("click", function(event) {  
   event.preventDefault();
   onSearch();
-  isFirstSearch = true;    
+  isFirstSearch = true;
+  currentPage = 1;
 });
 
 searchQueryInput.addEventListener("keydown", function(event) {
@@ -29,7 +30,8 @@ searchQueryInput.addEventListener("keydown", function(event) {
     event.preventDefault();
     onSearch();
   }
-    isFirstSearch = true;    
+  isFirstSearch = true; 
+  currentPage = 1;
 });
 
 prevButton.addEventListener('click', () => setCurrentPage(currentPage - 1));
@@ -49,9 +51,8 @@ async function onSearch() {
   if (searchQuery === query) {    
     showToast('warning', 'Please, modify or enter a new search field.');
     return;
-  }
-
-  galleryContainer.innerHTML = '';
+  }  
+  
   api.resetPage();
   query = searchQuery;
   isShown = 0;
@@ -72,12 +73,12 @@ async function fetchGallery(currentPage) {
 
     if (isFirstSearch && isShown < totalHits) {
       showToast('success', `Hooray! We found ${totalHits} images!`);
-      isFirstSearch = false;
-      setupPagination({ hits, totalHits });
+      isFirstSearch = false;      
     }
 
     galleryContainer.innerHTML = '';
     onRenderGallery(hits);
+    setupPagination({ hits, totalHits });
     isShown += hits.length;
 
     if (isShown >= totalHits) {
@@ -110,22 +111,10 @@ function onRenderGallery(elements) {
   lightbox.refresh();
 }
 
-function showToast(type, message) {
-  iziToast[type]({
-    title: type.charAt(0).toUpperCase() + type.slice(1),
-    message: message,
-    position: 'topRight',
-    color: type === 'success' ? 'green' : type === 'warning' ? 'yellow' : type === 'error' ? 'red' : 'blue',
-    timeout: 2000,
-    closeOnEscape: true,
-    closeOnClick: true,
-  });
-}
-
 function setupPagination({ hits, totalHits }) {
   
-  const pageCount = Math.ceil(totalHits / hits.length);
-
+  const pageCount = Math.ceil(totalHits / hits.length); 
+  
   paginationByttons.innerHTML = '';
 
   for (let i = 1; i <= pageCount; i++) {
@@ -135,16 +124,14 @@ function setupPagination({ hits, totalHits }) {
 
     paginationByttons.appendChild(pageNumber);
 
-    if (pageCount > 1) {
-       paginationContainer.classList.remove('is-hidden')
-    }
-   
+    pageCount > 1 ? paginationContainer.classList.remove('is-hidden') : paginationContainer.classList.add('is-hidden')
+
     pageNumber.addEventListener('click', () => {
       setCurrentPage(i);
     });    
   }
-  handlePageButtonsStatus(); 
-  handleActivePageNumber();
+  handlePageButtonsStatus();
+  handleActivePageNumber();  
 }
 
 function setCurrentPage(i) {
@@ -164,7 +151,7 @@ const enableButton = (button) => {
   button.removeAttribute("disabled");
 };
 
-const handlePageButtonsStatus = () => {
+const handlePageButtonsStatus = () => {  
   if (currentPage === 1) {
     disableButton(prevButton);
   } else {
@@ -178,11 +165,23 @@ const handlePageButtonsStatus = () => {
   }
 };
 
-const handleActivePageNumber = () => {
+const handleActivePageNumber = () => {  
   document.querySelectorAll(".pagination-number").forEach((button, page) => {
-    button.classList.remove("active");
+    button.classList.remove("active");    
     if (page + 1 === currentPage) {
       button.classList.add("active");
     }
   });
 };
+
+function showToast(type, message) {
+  iziToast[type]({
+    title: type.charAt(0).toUpperCase() + type.slice(1),
+    message: message,
+    position: 'topRight',
+    color: type === 'success' ? 'green' : type === 'warning' ? 'yellow' : type === 'error' ? 'red' : 'blue',
+    timeout: 2000,
+    closeOnEscape: true,
+    closeOnClick: true,
+  });
+}
