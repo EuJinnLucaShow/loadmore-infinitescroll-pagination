@@ -22,20 +22,19 @@
     </header>
 
     <main>
-        <div class="gallery" id="paginated-list" aria-live="polite"></div>
-
-        <nav class="pagination-container">
+        <div class="gallery" aria-live="polite"></div>
+        <nav class="pagination-container" id="pagination-container">
             <button class="pagination-button" id="prev-button" title="Previous page" aria-label="Previous page">
                 &lt;
             </button>
 
-            <div id="pagination-numbers">
-            </div>
+            <div id="pagination-numbers"></div>
 
             <button class="pagination-button" id="next-button" title="Next page" aria-label="Next page">
                 &gt;
             </button>
         </nav>
+
     </main>
 
     <script type="module" src="./js/pagination.js"></script>

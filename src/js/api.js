@@ -43,6 +43,10 @@ export default class ApiService {
     this.endOfHits = false;
   }
 
+  getPage(page) {
+    this.page = page;;
+  }
+
   get query() {
     return this.searchQuery;
   }

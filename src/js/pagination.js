@@ -1,76 +1,81 @@
 import '../sass/index.scss';
 import ApiService from './api';
-import { lightbox } from './lightbox';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-const searchButton = document.getElementById("search-button");
+// DOM Elements
+const searchButton = document.getElementById('search-button');
 const galleryContainer = document.querySelector('.gallery');
 const searchQueryInput = document.querySelector('#search-bar');
+const paginationByttons = document.getElementById('pagination-numbers');
+const prevButton = document.getElementById('prev-button');
+const nextButton = document.getElementById('next-button');
 
-const api = new ApiService();
+// Constants
 let isShown = 0;
 let isFirstSearch = true;
+let currentPage = 1;
+const api = new ApiService();
 
-searchButton.addEventListener("click", onSearch);
-searchQueryInput.addEventListener("keydown", function(event) {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    onSearch();
-  }
-  isFirstSearch = true;
-});
+// Event Listeners
+searchButton.addEventListener('click', onSearch);
+searchQueryInput.addEventListener('keydown', handleEnterKey);
+prevButton.addEventListener('click', () => setCurrentPage(currentPage - 1));
+nextButton.addEventListener('click', () => setCurrentPage(currentPage + 1));
 
-function onSearch() {
+// Main Functions
+
+async function onSearch() {
   const searchQuery = searchQueryInput.value.trim();
 
-  galleryContainer.innerHTML = '';
+  clearGallery();
   api.query = searchQuery;
   api.resetPage();
 
   if (searchQuery === '') {
-    showWarningToast('Please, fill the main field');
+    showToast('warning', 'Please, fill the main field');
     return;
   }
 
   searchQueryInput.value = '';
 
   isShown = 0;
-  fetchGallery();
+  await fetchGallery(1); // Pass the current page
 }
 
-async function fetchGallery() {
+async function fetchGallery(currentPage) {
   try {
+    api.getPage(currentPage)
     const result = await api.fetchGallery();
     const { hits, totalHits } = result;
 
     if (!hits.length) {
-      showErrorToast("Sorry, there are no images matching your search query. Please try again.");
+      showToast('error', 'Sorry, no images matching your search query. Please try again.');
       return;
     }
 
     if (isFirstSearch && isShown < totalHits) {
-      showSuccessToast(`Hooray! We found ${totalHits} images !!!`);
+      showToast('success', `Hooray! We found ${totalHits} images !!!`);
       isFirstSearch = false;
-      loadMoreButton.classList.remove('is-hidden');
+      setupPagination({ hits, totalHits });
     }
 
+    clearGallery();
     onRenderGallery(hits);
     isShown += hits.length;
 
     if (isShown >= totalHits) {
-      loadMoreButton.classList.add('is-hidden');
-      showInfoToast("You've reached the end of search results.");
+      showToast('info', "You've reached the end of search results.");
     }
   } catch (error) {
-    console.error("Error fetching gallery:", error);
-    showErrorToast("An error occurred while fetching the gallery.");
+    console.error('Error fetching gallery:', error);
+    showToast('error', 'An error occurred while fetching the gallery.');
   }
 }
 
 function onRenderGallery(elements) {
-  const markup = elements.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
-    return `
+  const markup = elements
+    .map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => `
       <div class="photo-card">
         <a href="${largeImageURL}">
           <img class="photo-img" src="${webformatURL}" alt="${tags}" loading="lazy" />
@@ -81,62 +86,74 @@ function onRenderGallery(elements) {
           <p class="info-item"><b>Comments</b><span class="info__span">${comments}</span></p>
           <p class="info-item"><b>Downloads</b><span class="info__span">${downloads}</span></p>
         </div>
-      </div>`;
-  }).join('');
+      </div>`
+    )
+    .join('');
 
   galleryContainer.insertAdjacentHTML('beforeend', markup);
-  lightbox.refresh();
 }
 
-loadMoreButton.addEventListener("click", async () => {
-  api.incrementPage(); // Increment the current page
-  await fetchGallery(); // Await the fetchGallery function to ensure the next page is loaded before rendering
+function clearGallery() {
+  galleryContainer.innerHTML = '';
+}
+
+function showToast(type, message) {
+  iziToast[type]({
+    title: type.charAt(0).toUpperCase() + type.slice(1), // Capitalize the first letter
+    message: message,
+    position: 'topRight',
+    color: type === 'success' ? 'green' : type === 'warning' ? 'yellow' : type === 'error' ? 'red' : 'blue',
+    timeout: 2000,
+    closeOnEscape: true,
+    closeOnClick: true,
+  });
+}
+
+// Helper Functions
+function handleEnterKey(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    onSearch();
+  }
+  isFirstSearch = true;
+}
+
+function setupPagination({ hits, totalHits }) {
+  
+  const pageCount = Math.ceil(totalHits / hits.length);
+
+  paginationByttons.innerHTML = ''; // Clear existing pagination
+
+  for (let i = 1; i <= pageCount; i++) {
+    const pageNumber = document.createElement('button');
+    pageNumber.className = 'pagination-number';
+    pageNumber.textContent = i;
+
+    paginationByttons.appendChild(pageNumber);
+
+    pageNumber.addEventListener('click', () => {
+      setCurrentPage(i);
+  });
+  }
+
+  handlePageButtonsStatus();
+}
+
+function setCurrentPage(i) {
+  currentPage = i; 
+  fetchGallery(currentPage);
+  handlePageButtonsStatus();
+}
+
+function handlePageButtonsStatus() {
+  prevButton.disabled = currentPage === 1;
+  nextButton.disabled = currentPage ===  paginationByttons.children.length;
+}
+
+prevButton.addEventListener('click', () => {
+  setCurrentPage(currentPage - 1);
 });
 
-function showWarningToast(message) {
-  iziToast.warning({
-    title: 'Warning',
-    message: message,
-    position: 'topRight',
-    color: 'yellow',
-    timeout: 2000,
-    closeOnEscape: true,
-    closeOnClick: true,
-  });
-}
-
-function showErrorToast(message) {
-  iziToast.error({
-    title: 'Error',
-    message: message,
-    position: 'topRight',
-    color: 'red',
-    timeout: 2000,
-    closeOnEscape: true,
-    closeOnClick: true,
-  });
-}
-
-function showSuccessToast(message) {
-  iziToast.success({
-    title: 'Success',
-    message: message,
-    position: 'topRight',
-    color: 'green',
-    timeout: 2000,
-    closeOnEscape: true,
-    closeOnClick: true,
-  });
-}
-
-function showInfoToast(message) {
-  iziToast.info({
-    title: 'Info',
-    message: message,
-    position: 'topRight',
-    color: 'blue',
-    timeout: 2000,
-    closeOnEscape: true,
-    closeOnClick: true,
-  });
-}
+nextButton.addEventListener('click', () => {
+  setCurrentPage(currentPage + 1);
+});
