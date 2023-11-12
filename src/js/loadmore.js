@@ -113,7 +113,7 @@ function showWarningToast(message) {
     message: message,
     position: 'topRight',
     color: 'yellow',
-    timeout: 2000,
+    timeout: 4000,
     closeOnEscape: true,
     closeOnClick: true,
   });
@@ -125,14 +125,14 @@ function showErrorToast(message) {
     message: message,
     position: 'topRight',
     color: 'red',
-    timeout: 2000,
+    timeout: 3000,
     closeOnEscape: true,
     closeOnClick: true,
   });
 }
 
 function showSuccessToast(message) {
-  iziToast.success({
+  iziToast.success({    
     title: 'Success',
     message: message,
     position: 'topRight',
@@ -149,7 +149,7 @@ function showInfoToast(message) {
     message: message,
     position: 'topRight',
     color: 'blue',
-    timeout: 2000,
+    timeout: 3000,
     closeOnEscape: true,
     closeOnClick: true,
   });
