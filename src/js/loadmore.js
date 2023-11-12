@@ -103,8 +103,8 @@ function onRenderGallery(elements) {
 }
 
 loadMoreButton.addEventListener("click", async () => {
-    api.incrementPage() // Increment the current page
-    await fetchGallery(); // Await the fetchGallery function to ensure the next page is loaded before rendering
+    api.incrementPage() 
+    await fetchGallery();
   });
 
 function showWarningToast(message) {

@@ -1,46 +1,61 @@
 import '../sass/index.scss';
 import ApiService from './api';
+import { lightbox } from './lightbox';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-// DOM Elements
 const searchButton = document.getElementById('search-button');
 const galleryContainer = document.querySelector('.gallery');
-const searchQueryInput = document.querySelector('#search-bar');
+const searchQueryInput = document.getElementById('search-bar');
+const paginationContainer = document.getElementById('pagination-container')
 const paginationByttons = document.getElementById('pagination-numbers');
 const prevButton = document.getElementById('prev-button');
 const nextButton = document.getElementById('next-button');
 
-// Constants
 let isShown = 0;
 let isFirstSearch = true;
 let currentPage = 1;
+let query = ''
 const api = new ApiService();
 
-// Event Listeners
-searchButton.addEventListener('click', onSearch);
-searchQueryInput.addEventListener('keydown', handleEnterKey);
+searchButton.addEventListener("click", function(event) {  
+  event.preventDefault();
+  onSearch();
+  isFirstSearch = true;    
+});
+
+searchQueryInput.addEventListener("keydown", function(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    onSearch();
+  }
+    isFirstSearch = true;    
+});
+
 prevButton.addEventListener('click', () => setCurrentPage(currentPage - 1));
 nextButton.addEventListener('click', () => setCurrentPage(currentPage + 1));
 
-// Main Functions
-
 async function onSearch() {
   const searchQuery = searchQueryInput.value.trim();
-
-  clearGallery();
-  api.query = searchQuery;
-  api.resetPage();
+  
+  api.query = searchQuery;  
 
   if (searchQuery === '') {
     showToast('warning', 'Please, fill the main field');
+    paginationContainer.classList.add('is-hidden')
     return;
   }
 
-  searchQueryInput.value = '';
+  if (searchQuery === query) {    
+    showToast('warning', 'Please, modify or enter a new search field.');
+    return;
+  }
 
+  galleryContainer.innerHTML = '';
+  api.resetPage();
+  query = searchQuery;
   isShown = 0;
-  await fetchGallery(1); // Pass the current page
+  await fetchGallery(1);
 }
 
 async function fetchGallery(currentPage) {
@@ -51,6 +66,7 @@ async function fetchGallery(currentPage) {
 
     if (!hits.length) {
       showToast('error', 'Sorry, no images matching your search query. Please try again.');
+      paginationContainer.classList.add('is-hidden')
       return;
     }
 
@@ -60,7 +76,7 @@ async function fetchGallery(currentPage) {
       setupPagination({ hits, totalHits });
     }
 
-    clearGallery();
+    galleryContainer.innerHTML = '';
     onRenderGallery(hits);
     isShown += hits.length;
 
@@ -91,15 +107,12 @@ function onRenderGallery(elements) {
     .join('');
 
   galleryContainer.insertAdjacentHTML('beforeend', markup);
-}
-
-function clearGallery() {
-  galleryContainer.innerHTML = '';
+  lightbox.refresh();
 }
 
 function showToast(type, message) {
   iziToast[type]({
-    title: type.charAt(0).toUpperCase() + type.slice(1), // Capitalize the first letter
+    title: type.charAt(0).toUpperCase() + type.slice(1),
     message: message,
     position: 'topRight',
     color: type === 'success' ? 'green' : type === 'warning' ? 'yellow' : type === 'error' ? 'red' : 'blue',
@@ -109,20 +122,11 @@ function showToast(type, message) {
   });
 }
 
-// Helper Functions
-function handleEnterKey(event) {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    onSearch();
-  }
-  isFirstSearch = true;
-}
-
 function setupPagination({ hits, totalHits }) {
   
   const pageCount = Math.ceil(totalHits / hits.length);
 
-  paginationByttons.innerHTML = ''; // Clear existing pagination
+  paginationByttons.innerHTML = '';
 
   for (let i = 1; i <= pageCount; i++) {
     const pageNumber = document.createElement('button');
@@ -130,12 +134,11 @@ function setupPagination({ hits, totalHits }) {
     pageNumber.textContent = i;
 
     paginationByttons.appendChild(pageNumber);
-
+    paginationContainer.classList.remove('is-hidden')
     pageNumber.addEventListener('click', () => {
       setCurrentPage(i);
-  });
+    });    
   }
-
   handlePageButtonsStatus();
 }
 
