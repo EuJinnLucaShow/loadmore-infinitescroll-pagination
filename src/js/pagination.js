@@ -135,7 +135,7 @@ function setupPagination({ hits, totalHits }) {
 
     paginationByttons.appendChild(pageNumber);
 
-    if (pageCount > 2) {
+    if (pageCount > 1) {
        paginationContainer.classList.remove('is-hidden')
     }
    
