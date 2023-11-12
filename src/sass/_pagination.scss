@@ -1,6 +1,7 @@
 .pagination-container {
   display: flex;
-  justify-content: center;  
+  justify-content: center;
+  margin: 20px 0;  
 }
 
 .pagination-number,
@@ -8,17 +9,21 @@
   font-size: 1.1rem;
   background-color: transparent;
   border: none;
-  margin: 0.25rem 0.25rem;
-  cursor: pointer;
+  margin: 0.25rem 0.25rem; 
   height: 2.5rem;
   width: 2.5rem;
   border-radius: .2rem;
 }
+
 .pagination-number:hover,
 .pagination-button:not(.disabled):hover {
-  background: #fff;
+  background: #dedede;
+  border-radius: 50px;
+  cursor: pointer;  
 }
+
 .pagination-number.active {
   color: #fff;
-  background: #0085b6;
+  background: #949494;
+  border-radius: 50px;
 }

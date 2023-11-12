@@ -13,7 +13,7 @@ const prevButton = document.getElementById('prev-button');
 const nextButton = document.getElementById('next-button');
 
 let isShown = 0;
-let isFirstSearch = true;
+let isFirstSearch = null;
 let currentPage = 1;
 let query = ''
 const api = new ApiService();
@@ -71,7 +71,7 @@ async function fetchGallery(currentPage) {
     }
 
     if (isFirstSearch && isShown < totalHits) {
-      showToast('success', `Hooray! We found ${totalHits} images !!!`);
+      showToast('success', `Hooray! We found ${totalHits} images!`);
       isFirstSearch = false;
       setupPagination({ hits, totalHits });
     }
@@ -81,7 +81,7 @@ async function fetchGallery(currentPage) {
     isShown += hits.length;
 
     if (isShown >= totalHits) {
-      showToast('info', "You've reached the end of search results.");
+      showToast('info', "You've reached the end of search results.");      
     }
   } catch (error) {
     console.error('Error fetching gallery:', error);
@@ -134,29 +134,55 @@ function setupPagination({ hits, totalHits }) {
     pageNumber.textContent = i;
 
     paginationByttons.appendChild(pageNumber);
-    paginationContainer.classList.remove('is-hidden')
+
+    if (pageCount > 2) {
+       paginationContainer.classList.remove('is-hidden')
+    }
+   
     pageNumber.addEventListener('click', () => {
       setCurrentPage(i);
     });    
   }
-  handlePageButtonsStatus();
+  handlePageButtonsStatus(); 
+  handleActivePageNumber();
 }
 
 function setCurrentPage(i) {
   currentPage = i; 
   fetchGallery(currentPage);
   handlePageButtonsStatus();
+  handleActivePageNumber();
 }
 
-function handlePageButtonsStatus() {
-  prevButton.disabled = currentPage === 1;
-  nextButton.disabled = currentPage ===  paginationByttons.children.length;
-}
+const disableButton = (button) => {
+  button.classList.add("disabled");
+  button.setAttribute("disabled", true);
+};
 
-prevButton.addEventListener('click', () => {
-  setCurrentPage(currentPage - 1);
-});
+const enableButton = (button) => {
+  button.classList.remove("disabled");
+  button.removeAttribute("disabled");
+};
 
-nextButton.addEventListener('click', () => {
-  setCurrentPage(currentPage + 1);
-});
+const handlePageButtonsStatus = () => {
+  if (currentPage === 1) {
+    disableButton(prevButton);
+  } else {
+    enableButton(prevButton);
+  }
+
+  if (currentPage === paginationByttons.children.length) {
+    disableButton(nextButton);
+  } else {
+    enableButton(nextButton);
+  }
+};
+
+const handleActivePageNumber = () => {
+  document.querySelectorAll(".pagination-number").forEach((button, page) => {
+    button.classList.remove("active");
+    if (page + 1 === currentPage) {
+      button.classList.add("active");
+    }
+  });
+};
