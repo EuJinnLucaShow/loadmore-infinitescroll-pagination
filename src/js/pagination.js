@@ -53,19 +53,19 @@ async function onSearch() {
     return;
   }  
   
-  api.resetPage();
+  api.resetPage();  
   query = searchQuery;
   isShown = 0;
   await fetchGallery(1);
 }
 
 async function fetchGallery(currentPage) {
-  try {
+  try {    
     api.getPage(currentPage)
-    const result = await api.fetchGallery();
+    const result = await api.fetchGallery();    
     const { hits, totalHits } = result;
 
-    if (!hits.length) {
+    if (isFirstSearch && !hits.length) {
       showToast('error', 'Sorry, no images matching your search query. Please try again.');
       paginationContainer.classList.add('is-hidden')
       return;
@@ -73,15 +73,15 @@ async function fetchGallery(currentPage) {
 
     if (isFirstSearch && isShown < totalHits) {
       showToast('success', `Hooray! We found ${totalHits} images!`);
+      setupPagination({ hits, totalHits });
       isFirstSearch = false;      
     }
 
     galleryContainer.innerHTML = '';
-    onRenderGallery(hits);
-    setupPagination({ hits, totalHits });
+    onRenderGallery(hits);    
     isShown += hits.length;
 
-    if (isShown >= totalHits) {
+    if (isFirstSearch && isShown >= totalHits) {
       showToast('info', "You've reached the end of search results.");      
     }
   } catch (error) {
@@ -128,6 +128,7 @@ function setupPagination({ hits, totalHits }) {
 
     pageNumber.addEventListener('click', () => {
       setCurrentPage(i);
+      isFirstSearch = false; 
     });    
   }
   handlePageButtonsStatus();
