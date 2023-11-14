@@ -8,6 +8,13 @@
   margin-top: 20px;
   font-family: 'Neueyokarto'; 
   color: #174ea6;
+
+    @media (max-width: 768px) {
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;      
+    width: 220px;
+    }
 }
 
 .navigate {
@@ -126,6 +133,11 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
     justify-content: center;
     & img { 
         border-radius: 20px;
+  @media (max-width: 768px) {
+       position: relative;
+    left: -10px;
+    }
+          
         }      
 }
 
