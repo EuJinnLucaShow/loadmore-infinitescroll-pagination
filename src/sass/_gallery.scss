@@ -1,0 +1,50 @@
+.gallery {
+  display: flex;
+  flex-wrap: wrap;   
+  float: none;
+}
+
+.photo-card {
+width: calc(25% - 20px);
+margin: 10px;
+box-shadow: 0 0 5px 2px #00043880;
+border-radius: 8px;
+overflow: hidden;
+font-family: 'Neueyokarto';
+transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover { 
+    box-shadow: 3px 3px 8px 3px #FF8080, -5px 3px 8px 3px #FFE488, -4px -3px 8px 3px #8CFF85, 6px -3px 8px 3px #80C7FF, 6px 5px 8px 4px #E488FF, -5px 5px 8px 4px #FF616B, -5px -4px 14px 1px #8E5CFF, 3px 3px 8px 3px rgba(0,0,0,0);
+  }
+}
+
+.photo-img {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.end-collection-text {
+  margin: 30px 0 30px 0;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: black;
+}
+
+.info__span {
+  font-family: Arial, Helvetica, sans-serif;
+}

@@ -3,6 +3,10 @@
 }
 
 .title__home {
+  display: flex;  
+  justify-content: center;
+  margin-top: 20px;
+  font-family: 'Neueyokarto'; 
   color: #174ea6;
 }
 
@@ -117,11 +121,11 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
         }      
 }
 
-.article__home-pages {
-    font-family: 'Neueyokarto';
-    font-size: larger; 
-    color: rgb(10, 20, 52);      
-}
+// .article__home-pages {
+//     font-family: 'Neueyokarto';
+//     font-size: larger; 
+//     color: rgb(10, 20, 52);      
+// }
 
 .btn-github {
   position: absolute;
