@@ -113,13 +113,14 @@ h1 {
 }
 
 .photo-card {
-  width: calc(100% / 4 - 10px * 2);
-  margin: 10px;
-  box-shadow: 0px 0px 5px 2px rgba(0, 4, 56, 0.5);
-  border-radius: 8px;
-  overflow: hidden; 
-  font-family: 'Neueyokarto'; 
-  &:hover {
+width: calc(25% - 20px);
+margin: 10px;
+box-shadow: 0 0 5px 2px #00043880;
+border-radius: 8px;
+overflow: hidden;
+font-family: 'Neueyokarto';
+transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover { 
     box-shadow: 3px 3px 8px 3px #FF8080, -5px 3px 8px 3px #FFE488, -4px -3px 8px 3px #8CFF85, 6px -3px 8px 3px #80C7FF, 6px 5px 8px 4px #E488FF, -5px 5px 8px 4px #FF616B, -5px -4px 14px 1px #8E5CFF, 3px 3px 8px 3px rgba(0,0,0,0);
   }
 }
