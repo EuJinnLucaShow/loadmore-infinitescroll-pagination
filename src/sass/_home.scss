@@ -17,6 +17,11 @@
   gap: 40px;
   margin-top: 50px;
   font-size: 24px;
+
+  @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 10px;
+    }
 }
 
 .navigate__link {   
@@ -53,6 +58,9 @@
   line-height: 42px;
   -webkit-perspective: 230px;
   perspective: 230px;
+    @media (max-width: 768px) {
+        right: 0;        
+    }
 }
 
 .navigate__btn span {
@@ -121,12 +129,6 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
         }      
 }
 
-// .article__home-pages {
-//     font-family: 'Neueyokarto';
-//     font-size: larger; 
-//     color: rgb(10, 20, 52);      
-// }
-
 .btn-github {
   position: absolute;
   top: 10px;
@@ -141,6 +143,11 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
   border: 1px solid rgba(0,0,0,0);
   cursor: pointer;
   transition: transform 0.5s;
+
+      @media (max-width: 768px) { 
+        top: auto;      
+        bottom: 10px;         
+    }
 }
 
 .btn-github:hover {
