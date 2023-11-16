@@ -1,4 +1,3 @@
-import '../sass/index.scss';
 import apiService from './api';
 import { lightbox } from './lightbox';
 import iziToast from 'izitoast';
