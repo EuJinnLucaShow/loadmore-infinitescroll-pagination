@@ -11,6 +11,14 @@ let isShown = 0;
 let isFirstSearch = true;
 let query = '';
 
+const observerOptions = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.5,
+};
+
+const intersectionObserver = new IntersectionObserver(handleIntersection, observerOptions);
+
 searchButton.addEventListener("click", function(event) {  
   event.preventDefault();
   onSearch();
@@ -99,14 +107,6 @@ function onRenderGallery(elements) {
   galleryContainer.insertAdjacentHTML('beforeend', markup);
   lightbox.refresh();
 }
-
-const observerOptions = {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0.5,
-};
-
-const intersectionObserver = new IntersectionObserver(handleIntersection, observerOptions);
 
 function handleIntersection(entries, _observer) {
   entries.forEach((entry) => {
