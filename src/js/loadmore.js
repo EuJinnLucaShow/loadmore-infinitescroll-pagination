@@ -26,7 +26,7 @@ searchQueryInput.addEventListener("keydown", function(event) {
     isFirstSearch = true;    
 });
 
-function onSearch() {
+async function onSearch() {
   const searchQuery = searchQueryInput.value.trim();
   
   apiService.setQuery(searchQuery);  
@@ -47,7 +47,7 @@ function onSearch() {
   apiService.resetPage();
   query = searchQuery;
   isShown = 0; 
-  fetchGallery();
+  await fetchGallery();
 }
 
 async function fetchGallery() {
