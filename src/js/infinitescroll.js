@@ -117,11 +117,6 @@ function handleIntersection(entries, _observer) {
   });
 }
 
-const firstElement = galleryContainer.firstElementChild;
-if (firstElement) {
-  intersectionObserver.observe(firstElement);
-}
-
 function showWarningToast(message) {
   iziToast.warning({
     title: 'Warning',
