@@ -1,5 +1,5 @@
 import '../sass/index.scss';
-import ApiService from './api';
+import apiService from './api';
 import { lightbox } from './lightbox';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
@@ -16,7 +16,6 @@ let isShown = 0;
 let isFirstSearch = true;
 let currentPage = 1;
 let query = ''
-const api = new ApiService();
 
 searchButton.addEventListener("click", function(event) {  
   event.preventDefault();
@@ -40,7 +39,7 @@ nextButton.addEventListener('click', () => setCurrentPage(currentPage + 1));
 async function onSearch() {
   const searchQuery = searchQueryInput.value.trim();
   
-  api.query = searchQuery;  
+  apiService.setQuery(searchQuery); 
 
   if (searchQuery === '') {
     showToast('warning', 'Please, fill the main field');
@@ -53,7 +52,7 @@ async function onSearch() {
     return;
   }  
   
-  api.resetPage();  
+  apiService.resetPage();  
   query = searchQuery;
   isShown = 0;
   await fetchGallery(1);
@@ -61,8 +60,8 @@ async function onSearch() {
 
 async function fetchGallery(currentPage) {
   try {    
-    api.getPage(currentPage)
-    const result = await api.fetchGallery();    
+    apiService.getPage(currentPage)
+    const result = await apiService.fetchGallery();    
     const { hits, totalHits } = result;
 
     if (isFirstSearch && !hits.length) {

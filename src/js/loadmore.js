@@ -1,5 +1,5 @@
 import '../sass/index.scss';
-import ApiService from './api';
+import apiService from './api';
 import { lightbox } from './lightbox';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
@@ -10,7 +10,6 @@ const searchQueryInput = document.querySelector('#search-bar');
 const loadMoreButton = document.querySelector('.btn__load-more')
 
 let isShown = 0;
-const api = new ApiService();
 let isFirstSearch = true;
 let query = ''
 
@@ -31,7 +30,7 @@ searchQueryInput.addEventListener("keydown", function(event) {
 function onSearch() {
   const searchQuery = searchQueryInput.value.trim();
   
-  api.query = searchQuery;  
+  apiService.setQuery(searchQuery);  
 
   if (searchQuery === '') {
     loadMoreButton.classList.add('is-hidden')
@@ -46,7 +45,7 @@ function onSearch() {
   }
   
   galleryContainer.innerHTML = '';
-  api.resetPage();
+  apiService.resetPage();
   query = searchQuery;
   isShown = 0; 
   fetchGallery();
@@ -54,7 +53,7 @@ function onSearch() {
 
 async function fetchGallery() {
   try {
-    const result = await api.fetchGallery();
+    const result = await apiService.fetchGallery();
     const { hits, totalHits } = result;
 
     if (!hits.length) {
@@ -103,7 +102,7 @@ function onRenderGallery(elements) {
 }
 
 loadMoreButton.addEventListener("click", async () => {
-    api.incrementPage() 
+    apiService.incrementPage() 
     await fetchGallery();
   });
 

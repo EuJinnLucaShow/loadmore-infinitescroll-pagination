@@ -1,5 +1,5 @@
 import '../sass/index.scss';
-import ApiService from './api';
+import apiService from './api';
 import { lightbox } from './lightbox';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
@@ -8,7 +8,6 @@ const searchButton = document.getElementById("search-button");
 const galleryContainer = document.querySelector('.gallery');
 const searchQueryInput = document.querySelector('#search-bar');
 
-const api = new ApiService();
 let isShown = 0;
 let isFirstSearch = true;
 let query = '';
@@ -30,7 +29,7 @@ searchQueryInput.addEventListener("keydown", function(event) {
 function onSearch() {
   const searchQuery = searchQueryInput.value.trim();
   
-  api.query = searchQuery;  
+  apiService.setQuery(searchQuery);   
 
   if (searchQuery === '') {    
     showWarningToast('Please, fill the main field');
@@ -43,7 +42,7 @@ function onSearch() {
   }
   
   galleryContainer.innerHTML = '';
-  api.resetPage();
+  apiService.resetPage();
   query = searchQuery;
   isShown = 0; 
   fetchGallery();
@@ -51,7 +50,7 @@ function onSearch() {
 
 async function fetchGallery() {
   try {
-    const result = await api.fetchGallery();
+    const result = await apiService.fetchGallery();
     const { hits, totalHits } = result;
 
     if (!hits.length) {
@@ -67,14 +66,12 @@ async function fetchGallery() {
     onRenderGallery(hits);
     isShown += hits.length;
 
-      // Observe the last element when it is added to the gallery
     const lastElement = galleryContainer.lastElementChild;
     if (lastElement) {
       intersectionObserver.observe(lastElement);
     }   
 
-    if (isShown >= totalHits) {
-      // Stop observing if all items are loaded
+    if (isShown >= totalHits) {      
       intersectionObserver.disconnect();
       showInfoToast("You've reached the end of search results.");
     }
@@ -115,13 +112,12 @@ const intersectionObserver = new IntersectionObserver(handleIntersection, observ
 function handleIntersection(entries, _observer) {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      api.incrementPage()
-      fetchGallery(); // Fetch more items when the last item is intersecting
+      apiService.incrementPage()
+      fetchGallery();
     }
   });
 }
 
-// Initial observe for the first set of items
 const firstElement = galleryContainer.firstElementChild;
 if (firstElement) {
   intersectionObserver.observe(firstElement);

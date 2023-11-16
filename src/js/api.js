@@ -1,57 +1,65 @@
 import axios from 'axios';
 
-export default class ApiService {
-  constructor() {
-    this.searchQuery = '';
-    this.page = 1;
-    this.PER_PAGE = 40;
-  }
-  async fetchGallery() {
-    const axiosOptions = {
-      method: 'get',
-      url: 'https://pixabay.com/api/',
-      params: {
-        key: '34523545-f21683fd59bfc3e4e2549fe07',
-        q: `${this.searchQuery}`,
-        image_type: 'photo',
-        orientation: 'horizontal',
-        safesearch: true,
-        page: `${this.page}`,
-        per_page: `${this.PER_PAGE}`,
-      },
-    };
+const API_KEY = '34523545-f21683fd59bfc3e4e2549fe07';
+const BASE_URL = 'https://pixabay.com/api/';
+const DEFAULT_PER_PAGE = 40;
 
-    
+function apiService() {
+  const service = {
+    searchQuery: '',
+    page: 1,
+    PER_PAGE: DEFAULT_PER_PAGE,
+  };
+
+  const fetchGallery = async () => {
     try {
-      const response = await axios(axiosOptions);
-      const data = response.data;     
-      return data;
+      const response = await axios.get(BASE_URL, {
+        params: {
+          key: API_KEY,
+          q: service.searchQuery,
+          image_type: 'photo',
+          orientation: 'horizontal',
+          safesearch: true,
+          page: service.page,
+          per_page: service.PER_PAGE,
+        },
+      });
+      return response.data;
     } catch (error) {
       console.error(error);
+      throw new Error('Failed to fetch data');
     }
-  }
+  };
 
-  incrementPage() {
-    this.page += 1;
-  }
+  const incrementPage = () => {
+    service.page += 1;
+  };
 
-  resetPage() {
-    this.page = 1;
-  }
+  const resetPage = () => {
+    service.page = 1;
+  };
 
-  resetEndOfHits() {
-    this.endOfHits = false;
-  }
+  const getQuery = () => {
+    return service.searchQuery;
+  };
 
-  getPage(page) {
-    this.page = page;;
-  }
+  const setQuery = (newQuery) => {
+    service.searchQuery = newQuery;
+    resetPage();
+  };
 
-  get query() {
-    return this.searchQuery;
-  }
+  const getPage = (currentPage) => {
+    service.page = currentPage;
+  };
 
-  set query(newQuery) {
-    this.searchQuery = newQuery;
-  }
+  return {
+    fetchGallery,
+    incrementPage,
+    resetPage,
+    getQuery,
+    setQuery,
+    getPage,
+  };
 }
+
+export default apiService();

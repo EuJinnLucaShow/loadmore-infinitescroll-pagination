@@ -131,14 +131,15 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
 .image__wrapper {
     display: flex;
     justify-content: center;
-    & img { 
-        border-radius: 20px;
-  @media (max-width: 768px) {
-       position: relative;
-    left: -10px;
+
+  & img { 
+    border-radius: 20px;
+
+    @media (max-width: 768px) {
+      position: relative;
+      left: -10px;
     }
-          
-        }      
+  }      
 }
 
 .btn-github {
@@ -151,7 +152,7 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
   padding: 1em;
   border-radius: 10px;
   box-shadow: 6px 6px 10px -1px rgba(0,0,0,0.15),
-	      -6px -6px 10px -1px rgba(255,255,255,0.7);
+	-6px -6px 10px -1px rgba(255,255,255,0.7);
   border: 1px solid rgba(0,0,0,0);
   cursor: pointer;
   transition: transform 0.5s;
