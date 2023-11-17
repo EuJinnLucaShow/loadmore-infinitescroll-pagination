@@ -133,11 +133,12 @@ function setupPagination({ hits, totalHits }) {
   handleActivePageNumber();  
 }
 
-function setCurrentPage(i) {
+async function setCurrentPage(i) {
   currentPage = i; 
-  fetchGallery(currentPage);
+  await fetchGallery(currentPage);
+  scrollToTop();
   handlePageButtonsStatus();
-  handleActivePageNumber();
+  handleActivePageNumber();  
 }
 
 const disableButton = (button) => {
@@ -182,5 +183,12 @@ function showToast(type, message) {
     timeout: 2000,
     closeOnEscape: true,
     closeOnClick: true,
+  });
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'auto',
   });
 }
