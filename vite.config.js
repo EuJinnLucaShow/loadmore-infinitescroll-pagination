@@ -6,7 +6,7 @@ import FullReload from 'vite-plugin-full-reload';
 export default defineConfig(() => {
   return {
     define: {
-                global: {}
+                'global': {}
             },
 
     root: 'src',
