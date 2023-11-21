@@ -6,12 +6,17 @@ import FullReload from 'vite-plugin-full-reload';
 export default defineConfig(({ command }) => {
   return {
     define: {
-      [command === 'serve' ? 'global' : '_global']: {},
+      [command === 'serve' ? 'global' : '_'] : {},
     },
+
     root: 'src',
+
+    server: {
+    open: '/index.html',
+    },
+
     build: {
       sourcemap: true,
-
       rollupOptions: {
         input: glob.sync('./src/*.html'),
         output: {
@@ -25,6 +30,7 @@ export default defineConfig(({ command }) => {
       },
       outDir: '../dist',
     },
+
     plugins: [injectHTML(), FullReload(['./src/**/**.html'])],
   };
 });
