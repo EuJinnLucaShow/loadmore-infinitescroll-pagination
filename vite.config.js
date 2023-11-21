@@ -3,11 +3,11 @@ import glob from 'glob';
 import injectHTML from 'vite-plugin-html-inject';
 import FullReload from 'vite-plugin-full-reload';
 
-export default defineConfig(({ command }) => {
+export default defineConfig(() => {
   return {
     define: {
-      [command === 'serve' ? 'global' : '_'] : {},
-    },
+                global: {}
+            },
 
     root: 'src',
 
