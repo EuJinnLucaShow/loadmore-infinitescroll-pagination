@@ -3,9 +3,9 @@ import glob from 'glob';
 import injectHTML from 'vite-plugin-html-inject';
 import FullReload from 'vite-plugin-full-reload';
 
-export default defineConfig(() => {
+export default defineConfig(({ command }) => {
   return {
-    define: { 'global': {} },
+    define: {[command === 'serve' ? 'global' : '_global']: {}, },
 
     root: 'src',
 
