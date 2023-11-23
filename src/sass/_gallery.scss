@@ -1,19 +1,37 @@
 .gallery {
   display: flex;
-  flex-wrap: wrap;   
+  flex-wrap: wrap;
   float: none;
 }
 
 .photo-card {
-width: calc(25% - 20px);
-margin: 10px;
-box-shadow: 0 0 5px 2px #00043880;
-border-radius: 8px;
-overflow: hidden;
-font-family: 'Neueyokarto';
-transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  &:hover { 
-    box-shadow: 3px 3px 8px 3px #FF8080, -5px 3px 8px 3px #FFE488, -4px -3px 8px 3px #8CFF85, 6px -3px 8px 3px #80C7FF, 6px 5px 8px 4px #E488FF, -5px 5px 8px 4px #FF616B, -5px -4px 14px 1px #8E5CFF, 3px 3px 8px 3px rgba(0,0,0,0);
+  margin: 10px;
+  box-shadow: 0 0 5px 2px #00043880;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: 'Neueyokarto';
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    box-shadow: 3px 3px 8px 3px #ff8080, -5px 3px 8px 3px #ffe488,
+      -4px -3px 8px 3px #8cff85, 6px -3px 8px 3px #80c7ff,
+      6px 5px 8px 4px #e488ff, -5px 5px 8px 4px #ff616b,
+      -5px -4px 14px 1px #8e5cff, 3px 3px 8px 3px rgba(0, 0, 0, 0);
+  }
+
+  @media (max-width: 767px) {
+    width: calc(100% - 20px);
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    width: calc(50% - 20px);
+  }
+
+  @media (min-width: 1024px) and (max-width: 1439px) {
+    width: calc(33% - 20px);
+  }
+
+  @media (min-width: 1440px) {
+    width: calc(25% - 20px);
   }
 }
 
